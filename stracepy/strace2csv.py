@@ -231,11 +231,11 @@ class StraceParser:
         # Handle 'exec*' syscalls
         if syscall.startswith("exec") and ret_int >= 0:
             if filepath == "":
-                _LOGGER.error("Missing filepath from exec* syscall: '%s'", line)
-                sys.exit(1)
-            bin_file = filepath
-            # Add/replace the entry in exec_map:
-            self.exec_map[pid] = bin_file
+                _LOGGER.warn("Missing filepath from exec* syscall: '%s'", line)
+            else:
+                bin_file = filepath
+                # Add/replace the entry in exec_map:
+                self.exec_map[pid] = bin_file
 
         # Handle 'clone' from parent process
         elif syscall == "clone" and ret_int >= 0:
